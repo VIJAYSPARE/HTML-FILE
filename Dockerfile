@@ -1,18 +1,14 @@
 FROM ubuntu:latest
-
-ARG DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && \
-    apt-get install -y apache2 curl && \
-    apt-get clean
-
-COPY index.html /var/www/html/index.html
-
+RUN apt-get -y update
+RUN apt-get install -y apache2 curl
+RUN apt-get install -y zip
+RUN apt-get install -y unzip
+ADD https://www.free-css.com/assets/files/free-css-templates/download/page261/avalon.zip /var/www/html/
 WORKDIR /var/www/html
-
-ENTRYPOINT ["/usr/sbin/apache2ctl"]
-
+RUN unzip avalon.zip
+RUN cp -rvf avalon/* .
+RUN rm -rf avalon avalon.zip
+ENTRYPOINT ["/usr/sbin/apache2ct1"]
 CMD ["-D", "FOREGROUND"]
-
 EXPOSE 80
 
